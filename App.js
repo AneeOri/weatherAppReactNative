@@ -31,6 +31,24 @@ const InictialStack = () => {
   )
 }
 
+const HomeStack = () => {
+  return(
+   <Drawer.Navigator
+    useLegacyImplementation
+    drawerContent={() => <CustomDrawer/>}
+   >
+    <Drawer.Screen
+      name='HomeScreen'
+      component={HomeScreen}
+    />
+    <Drawer.Screen
+       name='AddLocation'
+       component={AddLocation}
+    />
+   </Drawer.Navigator>
+  )
+}
+
 const App = () => {
 
   const data = useSelector(state => state.weather.weatherData);
@@ -42,7 +60,7 @@ const App = () => {
                    <Text>kpedoooooooooo</Text>
                  </View>
                :
-                   <InictialStack/>
+                   <HomeStack/>
               }
             </NavigationContainer>
   );
