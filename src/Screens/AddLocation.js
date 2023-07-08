@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView, StatusBar, StyleSheet,TextInput,Alert } from "react-native";
 
 
 const AddLocation = () => {
