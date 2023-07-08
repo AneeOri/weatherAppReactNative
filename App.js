@@ -19,7 +19,7 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   return (
     <View style={styles.container}>
-     
+     <Text>kpedoooooooooo</Text>
     </View>
   );
 }
