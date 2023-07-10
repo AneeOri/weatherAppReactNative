@@ -48,7 +48,7 @@ export const CustomDrawer = () => {
            <TouchableOpacity
              style={ styles.addContainer}
              onPress={() => 
-                       navigation.navigate("AddLocationScreen" , {isFrom: "Home"})
+                       navigation.navigate('AddLocation')
              }
            >
               <MaterialCommunityIcons
