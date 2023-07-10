@@ -2,6 +2,7 @@ import React from 'react';
 import { View,Text,TouchableOpacity,StyleSheet } from 'react-native';
 import {COLORS} from '../Utils/Colors';
 import { FONTS } from '../Utils/Fonts';
+import { wp, DEVICE_WIDTH } from '../Utils/ResponsiveLayout';
 
 
 const Button = ({
