@@ -1,11 +1,12 @@
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { COLORS } from "../Utils/Colors";
 import {hp , wp} from '../Utils/ResponsiveLayout';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedCity } from "../Redux/weatherSlice";
+import { FONTS } from "../Utils/Fonts";
 
 export const CustomDrawer = () => {
 
@@ -28,7 +29,7 @@ export const CustomDrawer = () => {
                      {
                         borderWidth:
                         selectedCity === index ? 3 : 0,
-                        borderColor: selectedCity === index ? Colors.BLACK : Colors.YELLOW_COLOR,
+                        borderColor: selectedCity === index ? COLORS.BLACK : COLORS.YELLOW_COLOR,
                      },
                   ]}
                 >
@@ -53,11 +54,11 @@ export const CustomDrawer = () => {
               <MaterialCommunityIcons
                 name="plus-box-outline"
                 size={wp(26)}
-                color={Colors.WHITE}
+                color={COLORS.WHITE}
               />
               <Text
                  style={[styles.drawerLabel,
-                  {color:Colors.WHITE, marginLeft:wp(12)},
+                  {color:COLORS.WHITE, marginLeft:wp(12)},
                 ]}
               >
                 {`Add Location`}
@@ -75,19 +76,19 @@ export const CustomDrawer = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.YELLOW_COLOR,
+    backgroundColor: COLORS.YELLOW_COLOR,
     paddingHorizontal: wp(20),
   },
   divider: {
     height: StyleSheet.hairlineWidth,
     width: "100%",
-    backgroundColor: Colors.BLACK,
+    backgroundColor: COLORS.BLACK,
     marginVertical: 16,
   },
   drawerLabel: {
     fontSize: wp(16),
-    //fontFamily: FONTS.POPPINS_BOLD,
-    color: Colors.BLACK,
+    fontFamily: FONTS.POPPINS_BOLD,
+    color: COLORS.BLACK,
     marginLeft: 0,
   },
   addContainer: {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: wp(12),
-    backgroundColor: Colors.BLACK,
+    backgroundColor: COLORS.BLACK,
     marginTop: hp(12)
   },
   cityContainer: {
@@ -108,12 +109,12 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 12,
     paddingHorizontal: wp(12),
-    backgroundColor: Colors.YELLOW_COLOR
+    backgroundColor: COLORS.YELLOW_COLOR
   },
   cityText: {
     fontSize: wp(14),
-    //fontFamily: FONTS.POPPINS_SEMIBOLD,
-    color: Colors.BLACK,
+    fontFamily: FONTS.POPPINS_SEMIBOLD,
+    color: COLORS.BLACK,
   },
 });
 
