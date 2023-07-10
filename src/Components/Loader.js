@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import {Colors} from '../Utils/Colors';
+import {COLORS} from '../Utils/Colors';
 import { hp,wp } from "../Utils/ResponsiveLayout";
+import { FONTS } from "../Utils/Fonts";
 
 const Loader = ({
     title='Fetching Weather'
 }) => {
     return (
    <View style={styles.container}>
-     <ActivityIndicator size="large" color={Colors.YELLOW_COLOR}/>
+     <ActivityIndicator size="large" color={COLORS.YELLOW_COLOR}/>
      <Text style={styles.loaderText}>{title}</Text>
    </View>
     );
