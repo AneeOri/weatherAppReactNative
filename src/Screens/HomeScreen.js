@@ -1,6 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text , StyleSheet} from "react-native";
 import { FONTS } from "../Utils/Fonts";
 import { COLORS } from "../Utils/Colors";
+import { wp, hp } from "../Utils/ResponsiveLayout";
 
 
 const HomeScreen = () => {
