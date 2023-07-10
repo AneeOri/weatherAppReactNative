@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView, StatusBar, StyleSheet,TextInput,Alert } from "react-native";
 import { FONTS } from "../Utils/Fonts";
 import { COLORS } from "../Utils/Colors";
+import { wp,hp } from "../Utils/ResponsiveLayout";
 
 
 const AddLocation = () => {
