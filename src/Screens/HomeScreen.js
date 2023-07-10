@@ -7,7 +7,7 @@ import { wp, hp } from "../Utils/ResponsiveLayout";
 const HomeScreen = () => {
     return(
         <View>
-            <Text> Location Screen</Text>
+            <Text> Home Screen</Text>
         </View>
     );
 }
