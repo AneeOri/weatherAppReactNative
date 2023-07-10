@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     titleText: {
       fontSize: wp(16),
       fontFamily: FONTS.POPPINS_SEMIBOLD,
-      color: Colors.BLACK,
+      color: COLORS.BLACK,
       marginLeft: wp(12),
     },
   });
