@@ -1,6 +1,7 @@
 import React from 'react';
 import { View,Text,TouchableOpacity,StyleSheet } from 'react-native';
-import {Colors} from '../Utils/Colors';
+import {COLORS} from '../Utils/Colors';
+import { FONTS } from '../Utils/Fonts';
 
 
 const Button = ({
@@ -13,15 +14,15 @@ const Button = ({
         buttonStyle,
         {
             borderWidth: mode !== 'solid' ? 2 : 0,
-            borderColor: Colors.BLACK,
-            backgroundColor: mode !== 'solid' ? Colors.YELLOW_COLORS : Colors.BLACK,
+            borderColor: COLORS.BLACK,
+            backgroundColor: mode !== 'solid' ? COLORS.YELLOW_COLORS : COLORS.BLACK,
         },
     ];
     const textStyle = [
         styles.buttonText,
         buttonStyle,
         {
-            color: mode !== 'solid' ? Colors.BLACK : Colors.WHITE,
+            color: mode !== 'solid' ? COLORS.BLACK : COLORS.WHITE,
         },
     ];
 
@@ -45,11 +46,12 @@ const styles = StyleSheet.create({
       height: 52,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: Colors.BLACK,
+      backgroundColor: COLORS.BLACK,
       borderRadius: 12,
     },
     buttonText: {
       fontSize: wp(16),
-      color: Colors.WHITE,
+      color: COLORS.WHITE,
+      fontFamily: FONTS.POPPINS_SEMIBOLD,
     },
   });
