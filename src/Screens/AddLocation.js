@@ -65,9 +65,26 @@ const AddLocation = () => {
       }
   }
     return(
-        <View>
-            <Text> Location Screen</Text>
+     <SafeAreaView style={styles.container}>
+        <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.YELLOW_COLOR}/>
+        <Header {...navigation} title='Add Location' onPressButton={() => onPressBack()}/>
+        <View style={styles.innerContainer}>
+          <Text style={styles.titleText}>{`Add city name to fetch weather`}</Text>
+          <TextInput 
+            value={city}
+            placeholder='Add city'
+            placeholderTextColor={'grey'}
+            style={styles.inputStyle}
+            onChangeText={text => setCity(text)}
+          />
+          <Button 
+            title='Fetch Weather'
+            buttonStyle={{alignSelf: 'center'}}
+            onPress={() => onPressFetch()}
+          />
         </View>
+        {isLoading && <Loader />}
+    </SafeAreaView>
     );
 }
 
