@@ -87,19 +87,39 @@ const LocationScreen = () => {
     },[data]);
 
        return(
-            <View>
-                <Text> Location Screen</Text>
-                <Button
-                  title='Fetch Weather'
-                  buttonStyle={{alignSelf: 'center'}}
-                  onPress={() => onPressFetch()}
+           <SafeAreaView style={styles.container}>
+              <StatusBar style='auto'/>
+              <View style ={styles.contentContainer}>
+                <LottieView
+                  autoPlay
+                  source={require("../../assets/animation/locationAnimation.json")}
+                  style={{
+                    height: 200,
+                    width :200,
+                  }}
                 />
-            </View>
+                <Text style={styles.title}>{`Allow "WeatherSnap" to access your location`}</Text>
+                <Button
+                  title={"Fetch Weather"}
+                  onPress={() => CheckIfLocationEnabled()}
+                />
+                <View style= {styles.sepratorContainer}>
+                  <View style={styles.separator} />
+                  <Text style={styles.text}>Or</Text>
+                  <View style={styles.separator} />
+                </View>
+                <Button
+                   title={"Add Manually"}
+                   mode="outline"
+                   onPress={() =>
+                     navigation.navigate('AddLocation')
+                   }
+                />
+              </View>
+              {isLoading && <Loader />}
+           </SafeAreaView>
         );
-    }
-
-
-
+    };
 
 export default LocationScreen;
 
