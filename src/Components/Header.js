@@ -9,6 +9,7 @@ const Header = ({
     title='Header Title',
     onPressButton
 }) => {
+  return (
    <View style={styles.container}>
     <MaterialCommunityIcons
       name="keyboard-backspace"
@@ -18,8 +19,8 @@ const Header = ({
     />
      <Text style={styles.titleText}>{title}</Text>
    </View>
-
-}
+  );
+};
 
 export default Header;
 
