@@ -7,6 +7,7 @@ import { COLORS } from "../Utils/Colors";
 import { hp,wp } from "../Utils/ResponsiveLayout";
 import { useNavigation } from "@react-navigation/core";
 import {fetchWeather} from '../Utils/ApiHelper';
+import { useDispatch, useSelector } from "react-redux";
 import { setIsLoading, setWeatherData } from "../Redux/weatherSlice";
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
@@ -42,7 +43,7 @@ const LocationScreen = () => {
         }
     }
 
-    
+
        return(
             <View>
                 <Text> Location Screen</Text>
