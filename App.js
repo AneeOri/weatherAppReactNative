@@ -40,14 +40,14 @@ const HomeStack = () => {
     useLegacyImplementation
     drawerContent={() => <CustomDrawer/>}
    >
-    <Drawer.Screen
+     <Drawer.Screen
       name='HomeScreen'
       component={HomeScreen}
-    />
-    <Drawer.Screen
+     />
+     <Drawer.Screen
        name='AddLocation'
        component={AddLocation}
-    />
+     />
    </Drawer.Navigator>
   )
 }
