@@ -19,7 +19,7 @@ import { useEffect } from 'react';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const InictialStack = () => {
+const InitialStack = () => {
   return(
     <Stack.Navigator>
       <Stack.Screen 
@@ -72,15 +72,8 @@ const App = () => {
   }
   return (
            <NavigationContainer>
-              {data.length >= 1 
-               ?
-                 <View style={styles.container}>
-                   <Text>kpedoooooooooo</Text>
-                 </View>
-               :
-                   <HomeStack/>
-              }
-            </NavigationContainer>
+                {data?.length >= 1 ? <InitialStack /> : <HomeStack />}
+          </NavigationContainer>
   );
 }
 
