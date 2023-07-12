@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { Alert, View, Text, SafeAreaView, StyleSheet  } from "react-native";
-import { hasServicesEnabledAsync } from "expo-location";
+import * as Location from "expo-location";
 import LottieView from 'lottie-react-native';
 import { FONTS } from "../Utils/Fonts"; 
 import { COLORS } from "../Utils/Colors";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsLoading, setWeatherData } from "../Redux/weatherSlice";
 import Button from '../Components/Button';
 import Loader from '../Components/Loader';
+import { useEffect } from "react";
 
 
 const LocationScreen = () => {
@@ -39,10 +40,51 @@ const LocationScreen = () => {
             );
         }
         else{
-            
+            GetCurrentLocation();
         }
     }
+    // Get Current Coords and Reverse geo coding
+    const GetCurrentLocation = async () => {
+        let {status} = await Location.requestBackgroundPermissionsAsync();
+        // if permission not granted
+        if(status !== 'granted'){
+            dispatch(setIsLoading(false));
+            Alert.alert(
+                "Permission not granted",
+                "Allow the app to use location service.",
+                [{ text: "OK" }],
+                { cancelable: false }
+              );
+        }
+    
+        let {coords} = await Location.getCurrentPositionAsync();
 
+        if(coords) {
+            const {latitude , longitude} = coords;
+            //get address from coords
+            let response = await Location.reverseGeocodeAsync({
+                latitude,
+                longitude,
+            });
+            if(response){
+                let weatherResponse = await fetchWeather(response[0].city);
+                if(weatherResponse?.error){
+                     dispatch(setIsLoading(false));
+                     Alert.alert("Error", weatherResponse?.error?.message);
+                }
+                else {
+                dispatch(setWeatherData([weatherResponse])); // storing data to redux state
+                dispatch(setIsLoading(false));
+                }
+            }
+        }
+    };
+    //navigation to home screen after updating redux state
+    useEffect(()=> {
+        if(data.length >= 1){
+            navigation.navigate('HomeScreen');
+        }
+    },[data]);
 
        return(
             <View>
