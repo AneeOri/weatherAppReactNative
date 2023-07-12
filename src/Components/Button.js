@@ -6,8 +6,10 @@ import { wp, DEVICE_WIDTH } from '../Utils/ResponsiveLayout';
 
 
 const Button = ({
-    title='button',
-    mode='solid',
+    title = 'button',
+    buttonStyle,
+    buttonTextStyle,
+    mode = 'solid',
     onPress,
 }) => {
     const containerStyle =[
@@ -35,9 +37,9 @@ const Button = ({
         >
             <Text style={textStyle}>{title}</Text>
         </TouchableOpacity>
-    )
+    );
     
-}
+};
 
 export default Button;
 
