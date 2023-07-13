@@ -25,7 +25,7 @@ import {
     setWeatherData,
   } from "../Redux/weatherSlice";
   import { useNavigation } from "@react-navigation/native";
-  import Loader from "../Component/Loader";
+  import Loader from "../Components/Loader";
 
 const HomeScreen = () => {
 
@@ -361,7 +361,7 @@ const HomeScreen = () => {
             />
           </View>
         </ScrollView>
-        {isLoading && <Loader title="Removing City" />}
+        {/* {isLoading && <Loader title="City" />} */}
     </SafeAreaView>
   );
 }
