@@ -226,11 +226,144 @@ const HomeScreen = () => {
     );
   }
 
-    return(
-        <View>
-            <Text> Home Screen</Text>
+  return(
+    <SafeAreaView style={styles.container}>
+        <StatusBar
+          backgroundColor={COLORS.YELLOW_COLOR}
+          barStyle={"dark-content"}
+        />
+        <View style={styles.topContainer}>
+          <Icon
+            name="menu"
+            size={wp(26)}
+            onPress={() => navigation.toggleDrawer()}
+          />
+          <Text
+            numberOfLines={2}
+            style={styles.cityText}
+          >{`${weatherData[selectedCity]?.location?.name}, ${weatherData[selectedCity]?.location?.country}`}</Text>
+          <Icon
+            name="remove-circle-outline"
+            size={wp(26)}
+            onPress={() => onPressRemove()}
+          />
         </View>
-    );
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh()}
+            />
+          }
+        >
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateText}>
+              {moment(currentWeather?.time).format("dddd, DD MMMM")}
+            </Text>
+          </View>
+          <Text style={styles.conditionText}>
+            {currentWeather?.condition?.text}
+          </Text>
+          <Text style={styles.tempText}>{`${Math.ceil(
+            currentWeather?.temp_c
+          )}°`}</Text>
+          <View style={styles.summaryContainer}>
+            <Text style={styles.summaryTitle}>Daily Summary</Text>
+            <Text style={styles.summaryText}>
+              {`Now it's feels like +${Math.ceil(
+                currentWeather?.feelslike_c
+              )}°, actully +${Math.ceil(currentWeather?.temp_c)}°`}
+            </Text>
+            <Text style={styles.summaryText}>
+              {`the temprature is felt in the range from +${Math.ceil(
+                hourlyData?.day?.maxtemp_c
+              )}° to +${Math.ceil(hourlyData?.day?.mintemp_c)}°`}
+            </Text>
+          </View>
+          <View style={styles.infoContainer}>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <LottieView
+                autoPlay
+                source={require("../../assets/animation/wind.json")}
+                style={{
+                  height: wp(50),
+                  width: wp(50),
+                }}
+              />
+              <Text
+                style={styles.infoMainText}
+              >{`${currentWeather?.wind_kph}Km/h`}</Text>
+              <Text style={styles.infoText}>Wind</Text>
+            </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <LottieView
+                autoPlay
+                source={require("../../assets/animation/humidity.json")}
+                style={{
+                  height: wp(50),
+                  width: wp(50),
+                }}
+                resizeMode="cover"
+              />
+              <Text
+                style={styles.infoMainText}
+              >{`${currentWeather?.humidity}%`}</Text>
+              <Text style={styles.infoText}>Humidity</Text>
+            </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <LottieView
+                autoPlay
+                source={require("../../assets/animation/eye1.json")}
+                style={{
+                  height: wp(50),
+                  width: wp(50),
+                }}
+              />
+              <Text
+                style={styles.infoMainText}
+              >{`${currentWeather?.vis_km}Km`}</Text>
+              <Text style={styles.infoText}>Visibility</Text>
+            </View>
+          </View>
+          <View style={styles.summaryContainer}>
+            <Text style={styles.summaryTitle}>Hourly forecast</Text>
+  
+            <FlatList
+              ref={flatListRef}
+              data={hourlyData?.hour}
+              renderItem={_renderItem}
+              horizontal
+              ItemSeparatorComponent={() => {
+                return <View style={{ width: 12 }} />;
+              }}
+              style={{ width: "100%", marginVertical: hp(16) }}
+              showsHorizontalScrollIndicator={false}
+              onScrollToIndexFailed={scrollToIndexFailed}
+              // extraData={weatherData}
+            />
+          </View>
+          <View style={styles.summaryContainer}>
+            <Text
+              style={styles.summaryTitle}
+            >{`${forecastData?.length} Days forecast`}</Text>
+  
+            <FlatList
+              data={forecastData}
+              renderItem={_renderForeCastItem}
+              horizontal
+              ItemSeparatorComponent={() => {
+                return <View style={{ width: 12 }} />;
+              }}
+              style={{ width: "100%", marginVertical: hp(16) }}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </ScrollView>
+        {isLoading && <Loader title="Removing City" />}
+    </SafeAreaView>
+  );
 }
 
 export default HomeScreen;
