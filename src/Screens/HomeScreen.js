@@ -1,7 +1,31 @@
-import { View, Text , StyleSheet} from "react-native";
-import { FONTS } from "../Utils/Fonts";
-import { COLORS } from "../Utils/Colors";
-import { wp, hp } from "../Utils/ResponsiveLayout";
+import {
+    View,
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    StatusBar,
+    FlatList,
+    Image,
+    ScrollView,
+    RefreshControl,
+    Alert,
+  } from "react-native";
+  import React, { useEffect, useRef, useState } from "react";
+  import { COLORS } from "../Utils/Colors";
+  import { FONTS } from "../Utils/Fonts";
+  import { DEVICE_WIDTH, hp, wp } from "../Utils/ResponsiveLayout";
+  import { fetchWeather } from "../Utils/ApiHelper";
+  import Icon from "@expo/vector-icons/MaterialIcons";
+  import LottieView from "lottie-react-native";
+  import { useDispatch, useSelector } from "react-redux";
+  import moment from "moment";
+  import {
+    setIsLoading,
+    setSelectedCity,
+    setWeatherData,
+  } from "../Redux/weatherSlice";
+  import { useNavigation } from "@react-navigation/native";
+  import Loader from "../Component/Loader";
 
 
 const HomeScreen = () => {
