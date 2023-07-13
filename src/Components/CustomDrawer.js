@@ -33,11 +33,11 @@ export const CustomDrawer = () => {
                      },
                   ]}
                 >
-                   <text style={[
+                   <Text style={[
                        styles.cityText,
                    ]}>
                       {item?.location?.name}
-                   </text>
+                   </Text>
                 </TouchableOpacity>
             );
         });
