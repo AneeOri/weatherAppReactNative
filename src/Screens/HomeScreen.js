@@ -27,8 +27,205 @@ import {
   import { useNavigation } from "@react-navigation/native";
   import Loader from "../Component/Loader";
 
-
 const HomeScreen = () => {
+
+     // Redux selector
+  const weatherData = useSelector((state) => state.weather.weatherData);
+  const selectedCity = useSelector((state) => state.weather.selectedCity);
+  const isLoading = useSelector((state) => state.weather.isLoading);
+  // State variable
+  const [hourlyData, setHourlyData] = useState({});
+  const [forecastData, setForecastData] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+  const [currentHour, setCurrentHour] = useState(0);
+  const [currentWeather, setCurrentWeather] = useState({});
+  const [weatherAlerts, setWeatherAlerts] = useState([]);
+  // Other
+  const flatListRef = useRef();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const foreCastData = weatherData[selectedCity]?.forecast?.forecastday;
+    foreCastData?.map((e, i) => {
+      if (i === 0) {
+        setHourlyData(e);
+      }
+    });
+    setForecastData(foreCastData);
+    setWeatherAlerts(weatherData[selectedCity]?.alerts?.alert)
+  }, [weatherData, refreshing]);
+
+  useEffect(() => {
+    let currentHour = weatherData[selectedCity]?.current?.last_updated;
+    currentHour = new Date(currentHour).getHours();
+    setCurrentHour(currentHour);
+
+    hourlyData?.hour?.map((e, i) => {
+      if (new Date(e.time).getHours() === currentHour) {
+        setCurrentWeather(e);
+      }
+    });
+
+    if (hourlyData?.hour !== undefined) {
+      setTimeout(() => {
+        flatListRef.current?.scrollToIndex({
+          index: currentHour,
+          animated: true,
+        });
+      }, 1000);
+    }
+  }, [hourlyData, weatherData]);
+
+  // On refresh home screen
+  const onRefresh = async () => {
+    setRefreshing(true);
+    let weatherResponse = await fetchWeather(
+      weatherData[selectedCity]?.location?.name
+    );
+    if (weatherResponse?.error) {
+      Alert.alert("Error", weatherResponse?.error?.message);
+      setRefreshing(false);
+    } else {
+      
+      let copyOfWeatherData = weatherData;
+      copyOfWeatherData[selectedCity] = weatherResponse;
+      dispatch(setWeatherData(copyOfWeatherData));
+      setRefreshing(false);
+    }
+  };
+
+  // Rollback to error index if scroll index fail
+  const scrollToIndexFailed = (error) => {
+    const offset = error.averageItemLength * error.index;
+    flatListRef.current.scrollToOffset({ offset });
+    setTimeout(
+      () => flatListRef.current.scrollToIndex({ index: error.index }),
+      100
+    ); 
+  };
+
+  // On remove city
+  const onPressRemove = () => {
+    dispatch(setIsLoading(true));
+    let tempData = weatherData;
+    setTimeout(() => {
+      // if more than 1 city available
+      if (tempData?.length > 1) {
+        tempData = tempData?.filter((item, index) => index !== selectedCity);
+        dispatch(setWeatherData(tempData));
+        // Reseting selectedCity to 0 if first city is deleted
+        selectedCity === 0
+          ? dispatch(setSelectedCity(0))
+          : dispatch(setSelectedCity(selectedCity - 1));
+        dispatch(setIsLoading(false));
+      } else {
+        dispatch(setWeatherData([]));
+        dispatch(setIsLoading(false));
+      }
+    }, 1000);
+  };
+
+  // Render Hourly forecast
+  const _renderItem = ({ item, index }) => {
+    return (
+      <View
+        style={[
+          styles.foreCastContainer,
+          {
+            backgroundColor:
+              currentHour === index ? COLORS.BLACK : COLORS.YELLOW_COLOR,
+            borderColor: currentHour === index ? COLORS.WHITE : COLORS.BLACK,
+          },
+        ]}
+      >
+        <Text
+          style={[
+            styles.foreCastTemp,
+            { color: currentHour === index ? COLORS.WHITE : COLORS.BLACK },
+          ]}
+        >{`${Math.ceil(item?.temp_c)}°`}</Text>
+        <Image
+          source={{
+            uri: "https:" + item?.condition?.icon,
+          }}
+          style={[
+            styles.forecastIconStyle,
+            { tintColor: currentHour === index ? COLORS.WHITE : COLORS.BLACK },
+          ]}
+        />
+        <Text
+          style={[
+            styles.foreCastDate,
+            { color: currentHour === index ? COLORS.WHITE : COLORS.BLACK },
+          ]}
+        >
+          {moment(item.time).format("LT")}
+        </Text>
+      </View>
+    );
+  };
+
+  // Display date on future day forecast
+  const displayDate = (date) => {
+    const todayDate = moment().endOf("day").format("YYYY-MM-DD");
+    if (date === todayDate) {
+      return "Today";
+    } else {
+      return moment(date).format("ddd");
+    }
+  };
+
+  // Render future forecast
+  const _renderForeCastItem = ({ item, index }) => {
+    return (
+      <View style={styles.foreCastContainer}>
+        <Text style={styles.foreCastTemp}>
+          {Math.ceil(item?.day?.avgtemp_c)}°
+        </Text>
+        <Image
+          source={{
+            uri: "https:" + item?.day?.condition?.icon,
+          }}
+          style={[styles.forecastIconStyle]}
+        />
+        <Text style={styles.foreCastDate}>{displayDate(item?.date)}</Text>
+      </View>
+    );
+  };
+
+  // Render Alert View
+  const _renderAlertView = () => {
+    let defaultPagination = 0;
+    return (
+      <View style={styles.alertContainer}>
+        <Text style={styles.summaryTitle}>Alert</Text>
+        <View style={styles.alertInnerContainer}>
+          <ScrollView 
+            nestedScrollEnabled 
+            pagingEnabled 
+            horizontal
+            disableIntervalMomentum={ true } 
+            snapToInterval={DEVICE_WIDTH - wp(70)}
+            showsHorizontalScrollIndicator={false}
+          >
+            {weatherAlerts?.map((e,i) => {
+              return (
+                <View style={{ width: DEVICE_WIDTH - wp(70),  }}>
+                <Text numberOfLines={2} style={styles.alertHeadline}>{e.headline}</Text>
+                <Text style={styles.alertDesc}>{e.desc}</Text>
+              </View>
+              )
+            })}
+          </ScrollView>
+          {weatherAlerts.length > 1 && <View style={styles.pagingContainer}> 
+              <Text style={styles.pagingText}>{`${defaultPagination + 1} / ${weatherAlerts.length}`}</Text>
+          </View>}
+        </View>
+      </View>
+    );
+  }
+
     return(
         <View>
             <Text> Home Screen</Text>
