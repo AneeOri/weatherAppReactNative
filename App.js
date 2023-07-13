@@ -81,7 +81,8 @@ const App = () => {
   }
   return (
            <NavigationContainer>
-                {data?.length >= 1 ? <InitialStack /> : <HomeStack />}
+                {/* {data?.length >= 1 ? <InitialStack /> : <HomeStack />} */}
+                {data?.length >= 1 ? <HomeStack /> : <InitialStack />}
           </NavigationContainer>
   );
 }
