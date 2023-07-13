@@ -83,7 +83,7 @@ const AddLocation = () => {
             onPress={() => onPressFetch()}
           />
         </View>
-        {isLoading && <Loader />}
+        {/* {isLoading && <Loader />} */}
     </SafeAreaView>
     );
 }
