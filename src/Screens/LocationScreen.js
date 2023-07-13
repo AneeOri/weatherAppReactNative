@@ -82,7 +82,7 @@ const LocationScreen = () => {
     //navigation to home screen after updating redux state
     useEffect(()=> {
         if(data.length >= 1){
-            navigation.navigate('HomeScreen');
+          () => navigation.navigate('HomeScreen');
         }
     },[data]);
 
@@ -116,7 +116,7 @@ const LocationScreen = () => {
                    }
                 />
               </View>
-              {isLoading && <Loader />}
+              {/* {isLoading && <Loader />} */}
            </SafeAreaView>
         );
     };
