@@ -28,7 +28,7 @@ const LocationScreen = () => {
     const CheckIfLocationEnabled = async () => {
         dispatch(setIsLoading(true));
 
-        let enabled = await hasServicesEnabledAsync();
+        let enabled = await Location.hasServicesEnabledAsync();
 
         if(!enabled){
             dispatch(setIsLoading(false));
