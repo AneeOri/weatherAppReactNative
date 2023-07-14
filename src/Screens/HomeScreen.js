@@ -160,7 +160,7 @@ const HomeScreen = () => {
             { color: currentHour === index ? COLORS.WHITE : COLORS.BLACK },
           ]}
         >
-          {moment(item.time).format("LT")}
+          {moment(item.localtime).format("LT")}
         </Text>
       </View>
     );
